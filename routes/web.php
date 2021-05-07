@@ -20,7 +20,7 @@ use Inertia\Inertia;
 
 // Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/perfil', [PerfilUserController::class, 'show']);
+Route::get('/perfil', [PerfilUserController::class, 'show'])->name('perfil');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

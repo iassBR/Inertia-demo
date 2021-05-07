@@ -36,10 +36,15 @@
                                             </button>
                                         </span>
                                     </template>
+                                        
 
                                     <template #content>
+                                        <breeze-dropdown-link :href="route('perfil')" >
+                                            Perfil
+                                        </breeze-dropdown-link>
+                                        
                                         <breeze-dropdown-link :href="route('logout')" method="post" as="button">
-                                            Log Out
+                                            Sair
                                         </breeze-dropdown-link>
                                     </template>
                                 </breeze-dropdown>
@@ -71,6 +76,12 @@
                         <div class="flex items-center px-4">
                             <div class="font-medium text-base text-gray-800">{{ $page.props.auth.user.name }}</div>
                             <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
+                        </div>
+
+                        <div class="mt-3 space-y-1">
+                            <breeze-responsive-nav-link :href="route('perfil')" >
+                                Perfil
+                            </breeze-responsive-nav-link>
                         </div>
 
                         <div class="mt-3 space-y-1">
