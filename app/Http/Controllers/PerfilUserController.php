@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Rules\CurrentPassword;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -81,6 +82,20 @@ class PerfilUserController extends Controller
 
         return Redirect::back();
         
+    }
+
+    public function alterarSenha(Request $request, User $user)
+    {
+        $request->validate([
+            'current_password' => ['required', 'string', new CurrentPassword()],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $user->forceFill([
+            'password' => Hash::make($request->password),
+        ])->save();
+
+        return Redirect::back();
     }
 
     /**

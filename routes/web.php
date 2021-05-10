@@ -22,6 +22,7 @@ use Inertia\Inertia;
 
 Route::get('/perfil', [PerfilUserController::class, 'show'])->name('perfil');
 Route::post('/perfil/{user}', [PerfilUserController::class, 'update'])->name('perfil.update');
+Route::put('/perfil/{user}', [PerfilUserController::class, 'alterarSenha'])->name('perfil.alterar-senha');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
