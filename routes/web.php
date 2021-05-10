@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\PerfilUserController;
+use App\Http\Controllers\ProjetoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,9 +21,20 @@ use Inertia\Inertia;
 
 // Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/perfil', [PerfilUserController::class, 'show'])->name('perfil');
-Route::post('/perfil/{user}', [PerfilUserController::class, 'update'])->name('perfil.update');
-Route::put('/perfil/{user}', [PerfilUserController::class, 'alterarSenha'])->name('perfil.alterar-senha');
+
+
+Route::middleware('auth')->group(function () {
+    // Perfil do usuário
+    Route::get('/perfil', [PerfilUserController::class, 'show'])->name('perfil');
+    Route::post('/perfil/{user}', [PerfilUserController::class, 'update'])->name('perfil.update');
+    Route::put('/perfil/{user}', [PerfilUserController::class, 'alterarSenha'])->name('perfil.alterar-senha');
+
+
+    // Projetos
+    Route::get('/projetos', [ProjetoController::class, 'index'])->name('projetos.index');
+    Route::get('/projetos/novo', [ProjetoController::class, 'create'])->name('projetos.create');
+    Route::post('/projetos/store', [ProjetoController::class, 'store'])->name('projetos.store');
+});
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

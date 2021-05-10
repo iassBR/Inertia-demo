@@ -18,6 +18,10 @@
                                 <breeze-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </breeze-nav-link>
+
+                                <breeze-nav-link :href="route('projetos.index')" :active="route().current('projetos.*')">
+                                    Meus Projetos
+                                </breeze-nav-link>
                             </div>
                         </div>
 
@@ -68,6 +72,10 @@
                     <div class="pt-2 pb-3 space-y-1">
                         <breeze-responsive-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
+                        </breeze-responsive-nav-link>
+
+                        <breeze-responsive-nav-link :href="route('projetos.index')" :active="route().current('projetos.index')">
+                            Projetos
                         </breeze-responsive-nav-link>
                     </div>
 
