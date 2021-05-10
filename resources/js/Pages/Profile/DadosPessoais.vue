@@ -3,63 +3,46 @@
     <div class="md:grid md:grid-cols-3 md:gap-6">
       <div class="md:col-span-1">
         <div class="px-4 sm:px-0">
-          <h3 class="text-lg font-medium leading-6 text-gray-900">Profile</h3>
-          <p class="mt-1 text-sm text-gray-600">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">
+            Dados pessoais
+          </h3>
+          <!-- <p class="mt-1 text-sm text-gray-600">
             This information will be displayed publicly so be careful what you
             share.
-          </p>
+          </p> -->
         </div>
       </div>
       <div class="mt-5 md:mt-0 md:col-span-2">
         <form action="#" method="POST">
           <div class="shadow sm:rounded-md sm:overflow-hidden">
             <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
-              <div class="grid grid-cols-3 gap-6">
-                <div class="col-span-3 sm:col-span-2">
-                  <label
-                    for="company_website"
-                    class="block text-sm font-medium text-gray-700"
-                  >
-                    Website
-                  </label>
-                  <div class="mt-1 flex rounded-md shadow-sm">
-                    <span
-                      class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
-                    >
-                      http://
-                    </span>
-                    <input
-                      type="text"
-                      name="company_website"
-                      id="company_website"
-                      class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
-                      placeholder="www.example.com"
-                    />
-                  </div>
-                  <!-- Name -->
-                  <div>
-                    <label for="email" value="Email" />
-                    <input
-                      id="email"
-                      type="email"
-                      class="mt-1 block w-full"
-                      required
-                      autofocus
-                      autocomplete="username"
-                    />
-                  </div>
+              <div class="grid grid-cols-6 gap-6">
+                <div class="col-span-6 md:col-span-3">
                   <!-- Email -->
-                  <div>
-                    <label for="email" value="Email" />
-                    <input
-                      id="email"
-                      type="email"
-                      class="mt-1 block w-full"
-                      required
-                      autofocus
-                      autocomplete="username"
-                    />
-                  </div>
+                  <breeze-label for="nome" value="Nome" />
+                  <breeze-input
+                    id="nome"
+                    type="text"
+                    class="mt-1 block w-full"
+                    required
+                    autofocus
+                    autocomplete="useremail"
+                    v-model="form.email"
+                  />
+                </div>
+
+                <!-- Nome -->
+                <div class="col-span-6 md:col-span-3">
+                  <breeze-label for="email" value="Email" />
+                  <breeze-input
+                    id="email"
+                    type="email"
+                    class="mt-1 block w-full"
+                    required
+                    autofocus
+                    autocomplete="username"
+                    v-model="form.name"
+                  />
                 </div>
               </div>
             </div>
@@ -79,15 +62,29 @@
 </template>
 
 <script>
-import Input from "../../Components/Input";
-import Label from "../../Components/Label";
-import ValidationErrors from "../../Components/ValidationErrors";
+import BreezeLabel from "@/Components/Label";
+import BreezeInput from "@/Components/Input";
+import ValidationErrors from "@/Components/ValidationErrors";
 
 export default {
   components: {
-    Input,
-    Label,
+    BreezeInput,
+    BreezeLabel,
     ValidationErrors,
+    BreezeInput,
+  },
+
+  props: {
+    user: Object,
+  },
+
+  data() {
+    return {
+      form: this.$inertia.form({
+        email: this.user.email,
+        name: this.user.name,
+      }),
+    };
   },
 };
 </script>
