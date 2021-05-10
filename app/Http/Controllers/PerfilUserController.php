@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class PerfilUserController extends Controller
@@ -47,9 +49,8 @@ class PerfilUserController extends Controller
      */
     public function show()
     {
-        
-        
-        return Inertia::render('Profile/Show', [ ]);
+
+        return Inertia::render('Profile/Show', []);
     }
 
     /**
@@ -60,7 +61,6 @@ class PerfilUserController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
     /**
@@ -70,9 +70,17 @@ class PerfilUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => "required|string|email|max:255|unique:users,email,$user->id",
+        ]);
+
+        $user->update($request->all());
+
+        return Redirect::back();
+        
     }
 
     /**

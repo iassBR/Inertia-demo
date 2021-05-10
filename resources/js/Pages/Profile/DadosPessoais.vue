@@ -13,46 +13,56 @@
         </div>
       </div>
       <div class="mt-5 md:mt-0 md:col-span-2">
-        <form action="#" method="POST">
+       <recently-successful v-if="form.recentlySuccessful" :message="'Atualizado com sucesso!'" />
+        <form @submit.prevent="submit">
           <div class="shadow sm:rounded-md sm:overflow-hidden">
             <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
               <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6 md:col-span-3">
-                  <!-- Email -->
+                  <!-- Nome -->
                   <breeze-label for="nome" value="Nome" />
                   <breeze-input
                     id="nome"
                     type="text"
                     class="mt-1 block w-full"
-                    required
+                    
                     autofocus
-                    autocomplete="useremail"
-                    v-model="form.email"
+                    autocomplete="username"
+                    v-model="form.name"
+                  />
+                  <breeze-input-error
+                    v-if="form.errors.name"
+                    :message="form.errors.name"
                   />
                 </div>
 
-                <!-- Nome -->
+                <!-- Email -->
                 <div class="col-span-6 md:col-span-3">
                   <breeze-label for="email" value="Email" />
                   <breeze-input
                     id="email"
                     type="email"
                     class="mt-1 block w-full"
-                    required
+                    
                     autofocus
-                    autocomplete="username"
-                    v-model="form.name"
+                    autocomplete="useremail"
+                    v-model="form.email"
+                  />
+                  <breeze-input-error
+                    v-if="form.errors.email"
+                    :message="form.errors.email"
                   />
                 </div>
               </div>
             </div>
             <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-              <button
-                type="submit"
-                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              <breeze-button
+                class="ml-4"
+                :class="{ 'opacity-25': form.processing }"
+                :disabled="form.processing"
               >
-                Save
-              </button>
+                Salvar
+              </breeze-button>
             </div>
           </div>
         </form>
@@ -63,7 +73,10 @@
 
 <script>
 import BreezeLabel from "@/Components/Label";
+import RecentlySuccessful from "@/Components/RecentlySuccessful";
+import BreezeButton from "@/Components/Button";
 import BreezeInput from "@/Components/Input";
+import BreezeInputError from "@/Components/InputError";
 import ValidationErrors from "@/Components/ValidationErrors";
 
 export default {
@@ -72,10 +85,14 @@ export default {
     BreezeLabel,
     ValidationErrors,
     BreezeInput,
+    BreezeButton,
+    BreezeInputError,
+    RecentlySuccessful,
   },
 
   props: {
     user: Object,
+    status: String,
   },
 
   data() {
@@ -85,6 +102,12 @@ export default {
         name: this.user.name,
       }),
     };
+  },
+
+  methods: {
+    submit() {
+      this.form.post(this.route("perfil.update", this.user));
+    },
   },
 };
 </script>

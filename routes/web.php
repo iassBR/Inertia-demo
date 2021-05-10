@@ -21,6 +21,7 @@ use Inertia\Inertia;
 // Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/perfil', [PerfilUserController::class, 'show'])->name('perfil');
+Route::post('/perfil/{user}', [PerfilUserController::class, 'update'])->name('perfil.update');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -35,4 +36,4 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
