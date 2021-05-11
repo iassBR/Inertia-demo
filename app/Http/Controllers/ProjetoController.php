@@ -51,9 +51,9 @@ class ProjetoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Projeto $projeto)
     {
-        //
+        return inertia()->render('Projetos/Show', ['projeto' => $projeto]);
     }
 
     /**
