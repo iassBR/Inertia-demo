@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\PerfilUserController;
 use App\Http\Controllers\ProjetoController;
+use App\Http\Controllers\ProjetoTarefasController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,7 +34,12 @@ Route::middleware('auth')->group(function () {
     // Projetos
     Route::get('/projetos', [ProjetoController::class, 'index'])->name('projetos.index');
     Route::get('/projetos/novo', [ProjetoController::class, 'create'])->name('projetos.create');
+    Route::get('/projetos/{projeto}/detalhes', [ProjetoController::class, 'show'])->name('projetos.show');
     Route::post('/projetos/store', [ProjetoController::class, 'store'])->name('projetos.store');
+
+    //Projeto Tarefas
+
+    Route::post('/projetos/{projeto}/tarefas', [ProjetoTarefasController::class, 'store'])->name('projetos.tarefa');
 });
 
 Route::get('/', function () {
