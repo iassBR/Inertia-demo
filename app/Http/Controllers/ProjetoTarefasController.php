@@ -15,8 +15,20 @@ class ProjetoTarefasController extends Controller
         
         $projeto->tarefas()->create($attributes);
 
-        return Redirect::back();
+        return redirect()->back();
     }
 
-   
+   public function completarTarefa(Tarefa $tarefa)
+   {
+       $tarefa->completar();
+
+       return Redirect::back();
+   }
+
+   public function descompletarTarefa(Tarefa $tarefa)
+   {
+       $tarefa->descompletar();
+
+       return Redirect::back();
+   }
 }

@@ -40,6 +40,10 @@ Route::middleware('auth')->group(function () {
     //Projeto Tarefas
 
     Route::post('/projetos/{projeto}/tarefas', [ProjetoTarefasController::class, 'store'])->name('projetos.tarefa');
+
+    Route::post('/completar-tarefa/{tarefa}', [ProjetoTarefasController::class, 'completarTarefa'])->name('completar.tarefa');
+    Route::delete('/completar-tarefa/{tarefa}', [ProjetoTarefasController::class, 'descompletarTarefa'])->name('completar.tarefa');
+
 });
 
 Route::get('/', function () {
