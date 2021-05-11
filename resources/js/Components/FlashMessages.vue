@@ -67,7 +67,7 @@ export default {
   props: {},
 
   mounted() {
-    console.log(this.$page.props.flash);
+    // console.log(this.$page.props.flash);
   },
 };
 </script>

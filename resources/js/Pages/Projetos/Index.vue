@@ -7,7 +7,7 @@
     </template>
 
     <div class="p-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <flash-messages ></flash-messages>
+      <flash-messages></flash-messages>
       <span class="flex rounded-md justify-end mb-5">
         <inertia-link
           :href="route('projetos.create')"
@@ -32,16 +32,11 @@
         </inertia-link>
       </span>
 
-      <div
+      <projeto-card
         v-for="(projeto, index) in projetos"
         :key="index"
-        class="bg-white p-6 rounded-lg shadow-lg"
-      >
-        <h2 class="text-2xl font-bold mb-2 text-gray-800">
-          {{ projeto.titulo }}
-        </h2>
-        <p class="text-gray-700">{{projeto.descricao}}</p>
-      </div>
+        :projeto="projeto"
+      ></projeto-card>
     </div>
   </authenticated-layout>
 </template>
@@ -49,18 +44,21 @@
 <script>
 import AuthenticatedLayout from "@/Layouts/Authenticated";
 import FlashMessages from "@/Components/FlashMessages";
+import ProjetoCard from "./ProjetoCard";
+
 export default {
   components: {
     AuthenticatedLayout,
-    FlashMessages
+    FlashMessages,
+    ProjetoCard,
   },
 
   props: {
     projetos: Array,
   },
 
-    mounted() {
-    console.log(this.$page);
+  mounted() {
+    // console.log("index", this.projetos[0].tarefas);
   },
 };
 </script>
