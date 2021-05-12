@@ -12,30 +12,102 @@
           v-if="form.recentlySuccessful"
           :message="'Salvo com sucesso !'"
         />
+        <!-- Lista de Tarefas -->
         <fieldset>
           <div class="mt-4 space-y-4">
             <div
-              v-for="(tarefa, index) in projeto.tarefas"
+              v-for="(tarefa, index) in tarefas"
               :key="index"
               class="flex items-start"
             >
-              <div class="flex items-center h-5">
-                <input
-                  @click.prevent="completar(tarefa)"
-                  name="completado"
-                  type="checkbox"
-                  class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                  v-model="tarefa.completado"
-                />
+              <!-- ItemLista exibir descrição -->
+              <div class="flex" v-show="!tarefa.editando">
+                <!-- CheckBox -->
+                <div class="flex items-center h-5">
+                  <input
+                    @click.prevent="completar(tarefa)"
+                    name="completado"
+                    type="checkbox"
+                    class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                    v-model="tarefa.completado"
+                  />
+                </div>
+                <!-- Descrição -->
+                <div class="ml-3 text-sm">
+                  <label for="tarefa" class="font-medium text-gray-700">{{
+                    tarefa.descricao
+                  }}</label>
+                </div>
+
+                <!-- Editar tarefa -->
+                <a
+                  class="text-indigo-600 hover:text-indigo-900"
+                  @click.prevent="updateTarefa(tarefa)"
+                  :href="'#'"
+                >
+                  <svg
+                    class="ml-1 h-5 w-5 text-gray-900 hover:text-indigo-900"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
+                    ></path>
+                  </svg>
+                </a>
               </div>
-              <div class="ml-3 text-sm">
-                <label for="tarefa" class="font-medium text-gray-700">{{
-                  tarefa.descricao
-                }}</label>
+              <!-- Input para editar a tarefa -->
+              <div class="flex items-center" v-show="tarefa.editando">
+                <breeze-input
+                  :id="tarefa.id"
+                  type="text"
+                  class="items-center block mt-1 w-full"
+                  autofocus
+                  v-model="tarefa.descricao"
+                />
+
+                <inertia-link
+                  :href="'#'"
+                  class="text-indigo-600 hover:text-indigo-900"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="ml-1 h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </inertia-link>
+                <a href="#">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="ml-1 h-6 w-6 text-red-600 hover:text-red-900"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </a>
               </div>
             </div>
           </div>
         </fieldset>
+        <!-- Nova Tarefa -->
         <form @submit.prevent="submit">
           <div class="mt-5 grid grid-cols-6">
             <div class="col-span-6">
@@ -109,10 +181,15 @@ export default {
       form: this.$inertia.form({
         descricao: "",
       }),
+      tarefas: this.projeto.tarefas.map((projeto) => {
+        return { ...projeto, editando: false };
+      }),
+      showTarefaDescricao: true,
+      showTarefaDescricaoEdit: false,
     };
   },
   mounted() {
-    console.log("montou");
+  //  console.log(this.tarefas);
   },
   methods: {
     submit() {
@@ -151,6 +228,11 @@ export default {
           }
         );
       }
+    },
+    updateTarefa(tarefa) {
+      this.tarefas =  this.tarefas.map(task => (task.id == tarefa.id ? {...task, editando: true} : task))
+
+     console.log(this.tarefas)
     },
   },
 };
