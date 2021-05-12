@@ -1,7 +1,7 @@
 <template>
   <div>
     <form @submit.prevent="submit">
-      <div class="shadow sm:rounded-md sm:overflow-hidden">
+      <div class="">
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
           <div class="grid grid-cols-6 gap-6">
             <!-- Título -->
@@ -40,8 +40,9 @@
           </div>
         </div>
         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+         <redirect-back-button :text="'Voltar'" :href="route('projetos.index')"></redirect-back-button>
           <breeze-button
-            class="ml-4"
+            class="ml-4 bg-green-500 hover:bg-green-600"
             :class="{ 'opacity-25': form.processing }"
             :disabled="form.processing"
           >
@@ -58,6 +59,8 @@ import BreezeLabel from "@/Components/Label";
 import BreezeButton from "@/Components/Button";
 import BreezeInput from "@/Components/Input";
 import BreezeInputError from "@/Components/InputError";
+import RedirectBackButton from '@/Components/RedirectBackButton.vue';
+
 export default {
   components: {
     BreezeInput,
@@ -65,6 +68,7 @@ export default {
     BreezeInput,
     BreezeButton,
     BreezeInputError,
+    RedirectBackButton,
   },
 
   props: {
@@ -75,8 +79,8 @@ export default {
   data() {
     return {
       form: this.$inertia.form({
-        titulo: this.projeto != null ? this.projeto.titulo : '',
-        descricao: this.projeto != null ? this.projeto.descricao : '',
+        titulo: this.projeto != null ? this.projeto.titulo : "",
+        descricao: this.projeto != null ? this.projeto.descricao : "",
       }),
     };
   },
@@ -85,8 +89,8 @@ export default {
     submit() {
       if (this.store == true) {
         this.form.post(this.route("projetos.store"));
-      }else {
-            this.form.put(this.route("projetos.update", this.projeto));
+      } else {
+        this.form.put(this.route("projetos.update", this.projeto));
       }
     },
   },

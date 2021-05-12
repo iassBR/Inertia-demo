@@ -4,7 +4,7 @@
       <h2 class="text-2xl font-bold mb-2 text-gray-800">
         <inertia-link
           class="hover:text-blue-500"
-         
+          :href="route('projetos.show', projeto)"
         >
           {{ projeto.titulo }}
         </inertia-link>
