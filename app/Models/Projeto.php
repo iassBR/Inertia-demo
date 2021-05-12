@@ -17,7 +17,7 @@ class Projeto extends Model
 
     public function tarefas()
     {
-        return $this->hasMany(Tarefa::class, 'projeto_id');
+        return $this->hasMany(Tarefa::class, 'projeto_id')->oldest();
     }
 
     public function getCreatedAtAttribute($value)
