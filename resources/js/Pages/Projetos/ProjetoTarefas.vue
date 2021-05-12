@@ -38,21 +38,29 @@
         </fieldset>
         <form @submit.prevent="submit">
           <div class="mt-5 grid grid-cols-6">
-            <div class="col-span-3">
+            <div class="col-span-6">
               <!-- Descrição -->
-              <breeze-label for="descricao" value="Adicionar Tarefa" />
-              <breeze-input
-                id="descricao"
-                type="text"
-                class=" "
-                autofocus
-                v-model="form.descricao"
+              <breeze-label
+                for="descricao"
+                value="Adicionar Tarefa"
+                class="block"
               />
-              <span class="rounded-md justify-end ml-3">
-                <breeze-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+              <div class="inline-flex items-center">
+                <breeze-input
+                  id="descricao"
+                  type="text"
+                  class="items-center block mt-1 w-full"
+                  autofocus
+                  v-model="form.descricao"
+                />
+                <breeze-button
+                  :class="{ 'opacity-25': form.processing }"
+                  class="inline-flex items-center ml-1"
+                  :disabled="form.processing"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
+                    class="h-5 w-5 flex-shrink-0"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -65,7 +73,7 @@
                     />
                   </svg>
                 </breeze-button>
-              </span>
+              </div>
               <breeze-input-error
                 v-if="form.errors.descricao"
                 :message="form.errors.descricao"
