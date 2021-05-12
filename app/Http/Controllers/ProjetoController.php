@@ -62,9 +62,9 @@ class ProjetoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Projeto $projeto)
     {
-        //
+        return inertia()->render('Projetos/Edit', compact('projeto'));
     }
 
     /**
@@ -74,9 +74,11 @@ class ProjetoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUpdateProjetoRequest $request, Projeto $projeto)
     {
-        //
+        $projeto->update($request->all());
+
+        return Redirect::route('projetos.show', $projeto)->with('success', 'Projeto ' . $projeto->titulo . ' editado com sucesso !');
     }
 
     /**
