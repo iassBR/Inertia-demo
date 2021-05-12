@@ -33,11 +33,13 @@
       </span>
 
       <projeto-card
-        v-for="(projeto, index) in projetos"
+        v-for="(projeto, index) in projetos.data"
         :key="index"
         :projeto="projeto"
       ></projeto-card>
+      <pagination :links="projetos.links" />
     </div>
+    
   </authenticated-layout>
 </template>
 
@@ -45,20 +47,22 @@
 import AuthenticatedLayout from "@/Layouts/Authenticated";
 import FlashMessages from "@/Components/FlashMessages";
 import ProjetoCard from "./ProjetoCard";
+import Pagination from '@/Components/Pagination';
 
 export default {
   components: {
     AuthenticatedLayout,
     FlashMessages,
     ProjetoCard,
+    Pagination
   },
 
   props: {
-    projetos: Array,
+    projetos: Object,
   },
 
   mounted() {
-    // console.log("index", this.projetos[0].tarefas);
+    console.log("index", this.projetos.links);
   },
 };
 </script>

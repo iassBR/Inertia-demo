@@ -17,7 +17,7 @@ class ProjetoController extends Controller
      */
     public function index()
     {
-        $projetos = auth()->user()->projetos()->latest()->get();
+        $projetos = auth()->user()->projetos()->latest()->paginate(5);
 
         return Inertia::render('Projetos/Index', ['projetos' => $projetos]);
     }
