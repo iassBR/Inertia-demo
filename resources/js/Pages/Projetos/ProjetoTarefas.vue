@@ -16,7 +16,7 @@
         <fieldset>
           <div class="mt-4 space-y-4">
             <div
-              v-for="(tarefa, index) in tarefas"
+              v-for="(tarefa, index) in projeto.tarefas"
               :key="index"
               class="flex items-start"
             >
@@ -42,7 +42,7 @@
                 <!-- Editar tarefa -->
                 <a
                   class="text-indigo-600 hover:text-indigo-900"
-                  @click.prevent="updateTarefa(tarefa)"
+                  @click.prevent="editTarefa(tarefa)"
                   :href="'#'"
                 >
                   <svg
@@ -65,11 +65,15 @@
                   type="text"
                   class="items-center block mt-1 w-full"
                   autofocus
-                  v-model="tarefa.descricao"
+                  v-model="formTarefa.descricao"
+                />
+                <breeze-input-error
+                  v-if="formTarefa.errors.descricao"
+                  :message="formTarefa.errors.descricao"
                 />
 
-                <inertia-link
-                  :href="'#'"
+                <a
+                  @click.prevent="updateTarefa(tarefa)"
                   class="text-indigo-600 hover:text-indigo-900"
                 >
                   <svg
@@ -86,8 +90,8 @@
                       d="M5 13l4 4L19 7"
                     />
                   </svg>
-                </inertia-link>
-                <a href="#">
+                </a>
+                <a @click.prevent="cancelarEditTarefa(tarefa)">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="ml-1 h-6 w-6 text-red-600 hover:text-red-900"
@@ -168,6 +172,7 @@ import RecentlySuccessful from "@/Components/RecentlySuccessful";
 export default {
   props: {
     projeto: Object,
+    tarefas: Object,
   },
   components: {
     BreezeInput,
@@ -181,15 +186,18 @@ export default {
       form: this.$inertia.form({
         descricao: "",
       }),
-      tarefas: this.projeto.tarefas.map((projeto) => {
+      tarefas: this.tarefas.map((projeto) => {
         return { ...projeto, editando: false };
       }),
+      formTarefa: this.$inertia.form({
+        descricao: "",
+      }),
+
       showTarefaDescricao: true,
       showTarefaDescricaoEdit: false,
     };
   },
   mounted() {
-  //  console.log(this.tarefas);
   },
   methods: {
     submit() {
@@ -210,6 +218,7 @@ export default {
       if (tarefa.completado == true) {
         this.form.delete(
           this.route("completar.tarefa", tarefa),
+          { onFinish: () => console.log(this.tarefas) },
           {
             preserveScroll: true,
           },
@@ -220,6 +229,7 @@ export default {
       } else {
         this.form.post(
           this.route("completar.tarefa", tarefa),
+          { onFinish: () => console.log(this.tarefas) },
           {
             preserveScroll: true,
           },
@@ -229,10 +239,28 @@ export default {
         );
       }
     },
-    updateTarefa(tarefa) {
-      this.tarefas =  this.tarefas.map(task => (task.id == tarefa.id ? {...task, editando: true} : task))
+    editTarefa(tarefa) {
+      console.log(this.tarefas);
+      this.tarefas = this.tarefas.map((task) =>
+        task.id == tarefa.id ? { ...task, editando: true } : task
+      );
 
-     console.log(this.tarefas)
+      this.formTarefa.descricao = tarefa.descricao;
+
+      console.log(this.formTarefa);
+    },
+    cancelarEditTarefa(tarefa) {
+      this.tarefas = this.tarefas.map((task) =>
+        task.id == tarefa.id ? { ...task, editando: false } : task
+      );
+    },
+    updateTarefa(tarefa) {
+      this.formTarefa.put(this.route("projetos.update-tarefa", tarefa), {
+        onFinish: () => {
+          this.formTarefa.reset();
+          this.cancelarEditTarefa(tarefa);
+        },
+      });
     },
   },
 };

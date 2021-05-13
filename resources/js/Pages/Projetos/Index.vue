@@ -16,7 +16,7 @@
         :key="index"
         :projeto="projeto"
       ></projeto-card>
-      <pagination :links="projetos.links" />
+      <!-- <pagination :links="projetos.links" /> -->
     </div>
     
   </authenticated-layout>

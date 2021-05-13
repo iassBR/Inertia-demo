@@ -51,7 +51,7 @@
         </div>
       </div>
     </div>
-    <projeto-tarefas :projeto="projeto"></projeto-tarefas>
+    <projeto-tarefas :projeto="projeto" :tarefas="projeto.tarefas"></projeto-tarefas>
   </authenticated-layout>
 </template>
 

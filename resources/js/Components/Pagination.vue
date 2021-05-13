@@ -3,7 +3,7 @@
     <template v-for="(link, key) in links">
       <div
         v-if="link.url === null"
-        :key="key"
+        :key="key+10"
         class="mr-1 mb-1 px-4 py-3 text-sm border rounded text-grey"
         :class="{ 'ml-auto': link.label === 'Próximo' }"
       >
